@@ -1,0 +1,41 @@
+#!/usr/bin/python3
+
+import sys
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
+
+def factorize(num):
+    print(f"{num}=", end="")
+    if num % 2 == 0:
+        print(f"{num//2}*2")
+        return
+
+    for i in range(3, num, 2):
+        if num % i == 0 and is_prime(i) and is_prime(num // i):
+            print(f"{num//i}*{i}")
+            return
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: {} <filename>".format(sys.argv[0]))
+        sys.exit(1)
+
+    filename = sys.argv[1]
+
+    with open(filename) as f:
+        for line in f:
+            num = int(line.strip())
+            factorize(num)
+
